@@ -11,14 +11,14 @@ const (
 	servicePort     = "port"
 	serviceNameOrID = "name-or-id"
 
-	routeServiceNameOrID     = "service-id"
-	routeProtocols = "protocols"
-	routeHosts     = "hosts"
-	routePaths     = "paths"
+	routeServiceNameOrID = "service-id"
+	routeProtocols       = "protocols"
+	routeHosts           = "hosts"
+	routePaths           = "paths"
 
-	defaultRouteHosts = "kong-test.com"
-	defaultRouteProtocols = "http"
-	defaultRoutePaths = "/api/v1"
+	defaultRouteHosts           = "kong-test.com"
+	defaultRouteProtocols       = "http"
+	defaultRoutePaths           = "/api/v1"
 	defaultRouteServiceNameOrID = "kong-test-service"
 )
 
