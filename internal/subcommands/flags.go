@@ -20,6 +20,11 @@ const (
 	defaultRouteProtocols       = "http"
 	defaultRoutePaths           = "/api/v1"
 	defaultRouteServiceNameOrID = "kong-test-service"
+
+	consumerUsername = "username"
+	consumerCustomId = "custom_id"
+
+	defaultConsumerUsername = "kong-test-username"
 )
 
 var (
@@ -92,4 +97,29 @@ var (
 	// 		Value: "kong-test",
 	// 	},
 	// }
+)
+
+var (
+	addConsumerFlags = []cli.Flag{
+		&cli.StringFlag{
+			Name:  consumerUsername,
+			Value: "kong-test",
+		},
+		&cli.StringFlag{
+			Name:  consumerCustomId,
+			Value: defaultConsumerUsername,
+		},
+	}
+	deleteConsumerFlags = []cli.Flag{
+		&cli.StringFlag{
+			Name:  consumerUsername,
+			Value: "kong-test",
+		},
+	}
+	getConsumerFlags = []cli.Flag{
+		&cli.StringFlag{
+			Name:  consumerUsername,
+			Value: "kong-test",
+		},
+	}
 )

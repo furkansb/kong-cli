@@ -61,5 +61,7 @@ func (k *KongManager) ListAllConsumers(ctx context.Context) []*kong.Consumer {
 }
 
 func ConsumerString(consumer *kong.Consumer) string {
-	return fmt.Sprintf("Consumer Name: %s, ID: %s\n", *consumer.Username, *consumer.ID)
+	consumerCustomID := strPointerToStr(consumer.CustomID)
+	consumerUsername := strPointerToStr(consumer.Username)
+	return fmt.Sprintf("Consumer Name: %s, ID: %s\n", consumerUsername, consumerCustomID)
 }
