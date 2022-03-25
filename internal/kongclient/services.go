@@ -56,9 +56,12 @@ func (k *KongManager) ListAllServices(ctx context.Context) ([]*kong.Service, err
 	return services, nil
 }
 
-func ServiceString(service *kong.Service) string {
+func ServiceString(service *kong.Service) (string, error) {
+	if service == nil {
+		return "", fmt.Errorf("service is nil")
+	}
 	serviceID := strPointerToStr(service.ID)
 	serviceName := strPointerToStr(service.Name)
 	serviceHost := strPointerToStr(service.Host)
-	return fmt.Sprintf("Service ID: %s, name: %s, host: %s, port: %d\n", serviceID, serviceName, serviceHost, service.Port)
+	return fmt.Sprintf("Service ID: %s, name: %s, host: %s, port: %d\n", serviceID, serviceName, serviceHost, service.Port), nil
 }

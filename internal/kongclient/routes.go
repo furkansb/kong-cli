@@ -64,8 +64,11 @@ func (k *KongManager) ListRoutesForService(ctx context.Context, serviceNameOrID 
 }
 
 // TODO: Add more descriptive output
-func RouteString(route *kong.Route) string {
+func RouteString(route *kong.Route) (string, error) {
+	if route == nil {
+		return "", fmt.Errorf("route is nil")
+	}
 	id := strPointerToStr(route.ID)
 	firstPath := strPointerToStr(route.Paths[0])
-	return fmt.Sprintf("Route ID: %s, Path: %s\n", id, firstPath)
+	return fmt.Sprintf("Route ID: %s, Path: %s\n", id, firstPath), nil
 }
