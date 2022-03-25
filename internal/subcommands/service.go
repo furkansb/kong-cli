@@ -54,7 +54,10 @@ func addServiceCmdFunc(c *cli.Context) error {
 	host := c.String("host")
 	protocol := c.String("protocol")
 	service := k.Service{Name: &name, Port: &port, Host: &host, Protocol: &protocol}
-	kongManager.CreateService(c.Context, &service)
+	_, err := kongManager.CreateService(c.Context, &service)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -66,13 +69,19 @@ func deleteServiceCmdFunc(c *cli.Context) error {
 
 func getServiceCmdFunc(c *cli.Context) error {
 	nameOrID := c.String("name-or-id")
-	service := kongManager.GetService(c.Context, nameOrID)
+	service, err := kongManager.GetService(c.Context, nameOrID)
+	if err != nil {
+		return err
+	}
 	fmt.Print(kong.ServiceString(service))
 	return nil
 }
 
 func listServicesCmdFunc(c *cli.Context) error {
-	service := kongManager.ListAllServices(c.Context)
+	service, err := kongManager.ListAllServices(c.Context)
+	if err != nil {
+		return err
+	}
 	for _, s := range service {
 		fmt.Print(kong.ServiceString(s))
 	}

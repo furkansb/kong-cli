@@ -53,9 +53,15 @@ func addRouteCmdFunc(c *cli.Context) error {
 	paths := c.StringSlice("paths")
 	protocols := c.StringSlice("protocols")
 	serviceNameOrID := c.String("service-id")
-	service := kongManager.GetService(c.Context, serviceNameOrID)
+	service, err := kongManager.GetService(c.Context, serviceNameOrID)
+	if err != nil {
+		return err
+	}
 	route := k.Route{Hosts: getSliceElementsPointer(hosts), Paths: getSliceElementsPointer(paths), Protocols: getSliceElementsPointer(protocols), Service: service}
-	kongManager.CreateRoute(c.Context, &route)
+	_, err = kongManager.CreateRoute(c.Context, &route)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -67,13 +73,19 @@ func deleteRouteCmdFunc(c *cli.Context) error {
 
 func getRouteCmdFunc(c *cli.Context) error {
 	nameOrID := c.String("name-or-id")
-	route := kongManager.GetRoute(c.Context, nameOrID)
+	route, err := kongManager.GetRoute(c.Context, nameOrID)
+	if err != nil {
+		return err
+	}
 	fmt.Print(kong.RouteString(route))
 	return nil
 }
 
 func listRoutesCmdFunc(c *cli.Context) error {
-	routes := kongManager.ListAllRoutes(c.Context)
+	routes, err := kongManager.ListAllRoutes(c.Context)
+	if err != nil {
+		return err
+	}
 	for _, r := range routes {
 		fmt.Print(kong.RouteString(r))
 	}

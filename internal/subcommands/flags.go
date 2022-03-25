@@ -33,27 +33,27 @@ var (
 			Value: "http",
 		},
 		&cli.StringFlag{
-			Name:  serviceHost,
-			Value: "kong-test.com",
+			Name:     serviceHost,
+			Value:    "kong-test.com",
 			Required: true,
 		},
 		&cli.IntFlag{
-			Name:  servicePort,
-			Value: 8080,
+			Name:     servicePort,
+			Value:    8080,
 			Required: true,
 		},
 	}
 	deleteServiceFlags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  serviceNameOrID,
-			Value: "kong-test",
+			Name:     serviceNameOrID,
+			Value:    "kong-test",
 			Required: true,
 		},
 	}
 	getServiceFlags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  serviceNameOrID,
-			Value: "kong-test",
+			Name:     serviceNameOrID,
+			Value:    "kong-test",
 			Required: true,
 		},
 	}
@@ -66,32 +66,32 @@ var (
 			Value: cli.NewStringSlice(defaultRouteHosts),
 		},
 		&cli.StringSliceFlag{
-			Name:  routeProtocols,
-			Value: cli.NewStringSlice(defaultRouteProtocols),
+			Name:     routeProtocols,
+			Value:    cli.NewStringSlice(defaultRouteProtocols),
 			Required: true,
 		},
 		&cli.StringSliceFlag{
-			Name:  routePaths,
-			Value: cli.NewStringSlice(defaultRoutePaths),
+			Name:     routePaths,
+			Value:    cli.NewStringSlice(defaultRoutePaths),
 			Required: true,
 		},
 		&cli.StringFlag{
-			Name:  routeServiceNameOrID,
-			Value: defaultRouteServiceNameOrID,
+			Name:     routeServiceNameOrID,
+			Value:    defaultRouteServiceNameOrID,
 			Required: true,
 		},
 	}
 	deleteRouteFlags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  serviceNameOrID,
-			Value: "kong-test",
+			Name:     serviceNameOrID,
+			Value:    "kong-test",
 			Required: true,
 		},
 	}
 	getRouteFlags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  serviceNameOrID,
-			Value: "kong-test",
+			Name:     serviceNameOrID,
+			Value:    "kong-test",
 			Required: true,
 		},
 	}
