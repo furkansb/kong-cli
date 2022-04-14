@@ -20,8 +20,14 @@ const (
 	defaultRouteProtocols       = "http"
 	defaultRoutePaths           = "/api/v1"
 	defaultRouteServiceNameOrID = "kong-test-service"
+
+	consumerUsername = "username"
+	consumerCustomId = "custom_id"
+
+	defaultConsumerUsername = "kong-test-username"
 )
 
+// Service cmd flags
 var (
 	addServiceFlags = []cli.Flag{
 		&cli.StringFlag{
@@ -59,6 +65,7 @@ var (
 	}
 )
 
+// Route cmd flags
 var (
 	addRouteFlags = []cli.Flag{
 		&cli.StringSliceFlag{
@@ -103,6 +110,36 @@ var (
 	// }
 )
 
+var (
+	addConsumerFlags = []cli.Flag{
+		&cli.StringFlag{
+			Name:  consumerUsername,
+			Value: "kong-test",
+			Required: true,
+		},
+		&cli.StringFlag{
+			Name:  consumerCustomId,
+			Value: defaultConsumerUsername,
+			Required: true,
+		},
+	}
+	deleteConsumerFlags = []cli.Flag{
+		&cli.StringFlag{
+			Name:  consumerUsername,
+			Value: "kong-test",
+			Required: true,
+		},
+	}
+	getConsumerFlags = []cli.Flag{
+		&cli.StringFlag{
+			Name:  consumerUsername,
+			Value: "kong-test",
+			Required: true,
+		},
+  	}
+)
+
+// Oauth2 cmd flags
 var (
 	addOauth2Flags = []cli.Flag{
 		&cli.StringFlag{

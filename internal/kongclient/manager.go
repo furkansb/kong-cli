@@ -14,7 +14,7 @@ type KongManager struct {
 func NewKongManager(url string) *KongManager {
 	kongClient, err := kong.NewClient(&url, http.DefaultClient)
 	if err != nil {
-		fmt.Printf("Error creating kong client: %s", err)
+		fmt.Errorf("Error creating kong client: %s", err)
 		return nil
 	}
 	return &KongManager{client: kongClient}

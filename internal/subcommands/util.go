@@ -19,5 +19,5 @@ func getSliceElementsPointer(sl []string) []*string {
 }
 
 func AllCommands() []*cli.Command {
-	return mergeCommands(ServiceCommands, RouteCommands, Oauth2Commands)
+	return mergeCommands(ServiceCommands, RouteCommands, ConsumerCommands, Oauth2Commands)
 }
