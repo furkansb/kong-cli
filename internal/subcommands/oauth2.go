@@ -49,20 +49,14 @@ var Oauth2Commands []*cli.Command = []*cli.Command{
 
 func addOauth2CredCmdFunc(c *cli.Context) error {
 	name := c.String("name")
-	clientIDStr := c.String("client-id"); clientID := &clientIDStr
-	clientSecretStr := c.String("client-secret"); clientSecret := &clientSecretStr
+	clientIDStr := c.String("client-id"); clientID := kong.StrToPointer(clientIDStr)
+	clientSecretStr := c.String("client-secret"); clientSecret := kong.StrToPointer(clientSecretStr)
 	consumerUsernameOrID := c.String("consumer-name-or-id")
-	var oauth2 k.Oauth2Credential
 	consumer, err := kongManager.GetConsumer(c.Context, consumerUsernameOrID)
 	if err != nil {
 		return err
 	}
-	// TODO: handle this better
-	if (clientIDStr == "") || (clientSecretStr == "") {
-		oauth2 = k.Oauth2Credential{Name: &name, Consumer: consumer}
-	} else {
-		oauth2 = k.Oauth2Credential{Name: &name, ClientID: clientID, ClientSecret: clientSecret, Consumer: consumer}
-	}
+	oauth2 := k.Oauth2Credential{Name: &name, ClientID: clientID, ClientSecret: clientSecret, Consumer: consumer}
 	_, err = kongManager.CreateOauth2Credential(c.Context, consumerUsernameOrID, &oauth2)
 	if err != nil {
 		return err

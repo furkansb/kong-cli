@@ -6,3 +6,11 @@ func strPointerToStr(s *string) string {
 	}
 	return *s
 }
+
+// Gives a pointer to a string, returns nil for empty strings
+func StrToPointer(s string) *string {
+	if s == "" {
+		return nil
+	}
+	return &s
+}
