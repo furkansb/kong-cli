@@ -73,7 +73,11 @@ func getConsumerCmdFunc(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	fmt.Print(kong.ConsumerString(consumer))
+	consumerStr, err := kong.ConsumerString(consumer)
+	if err != nil {
+		return err
+	}
+	fmt.Print(consumerStr)
 	return nil
 }
 
@@ -82,8 +86,8 @@ func listConsumersCmdFunc(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	for _, s := range consumer {
-		consumerStr, err := kong.ConsumerString(s)
+	for _, c := range consumer {
+		consumerStr, err := kong.ConsumerString(c)
 		if err != nil {
 			return err
 		}

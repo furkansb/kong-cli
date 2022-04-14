@@ -77,11 +77,15 @@ func deleteOauth2CredCmdFunc(c *cli.Context) error {
 func getOauth2CredCmdFunc(c *cli.Context) error {
 	consumerUsernameOrID := c.String("consumer-name-or-id")
 	clientIDorID := c.String("client-id-or-id")
-	credential, err := kongManager.GetOauth2Credential(c.Context, consumerUsernameOrID, clientIDorID)
+	cred, err := kongManager.GetOauth2Credential(c.Context, consumerUsernameOrID, clientIDorID)
 	if err != nil {
 		return err
 	}
-	fmt.Print(kong.Oauth2String(credential))
+	oauth2Str, err := kong.Oauth2String(cred)
+	if err != nil {
+		return err
+	}
+	fmt.Print(oauth2Str)
 	return nil
 }
 
