@@ -54,12 +54,12 @@ func addOauth2CredCmdFunc(c *cli.Context) error {
 	consumerUsernameOrID := c.String("consumer-name-or-id")
 	consumer, err := kongManager.GetConsumer(c.Context, consumerUsernameOrID)
 	if err != nil {
-		return fmt.Errorf("error getting consumer: %s", err)
+		return err
 	}
 	oauth2 := k.Oauth2Credential{Name: &name, ClientID: clientID, ClientSecret: clientSecret, Consumer: consumer}
 	_, err = kongManager.CreateOauth2Credential(c.Context, consumerUsernameOrID, &oauth2)
 	if err != nil {
-		return fmt.Errorf("error creating oauth2 credential: %s", err)
+		return err
 	}
 	return nil
 }
@@ -69,7 +69,7 @@ func deleteOauth2CredCmdFunc(c *cli.Context) error {
 	clientIDorID := c.String("client-id-or-id")
 	err := kongManager.DeleteOauth2Credential(c.Context, consumerUsernameOrID, clientIDorID)
 	if err != nil {
-		return fmt.Errorf("error deleting oauth2 credential: %s", err)
+		return err
 	}
 	return nil
 }
@@ -79,7 +79,7 @@ func getOauth2CredCmdFunc(c *cli.Context) error {
 	clientIDorID := c.String("client-id-or-id")
 	credential, err := kongManager.GetOauth2Credential(c.Context, consumerUsernameOrID, clientIDorID)
 	if err != nil {
-		return fmt.Errorf("error getting oauth2 credential: %s", err)
+		return err
 	}
 	fmt.Print(kong.Oauth2String(credential))
 	return nil
@@ -88,7 +88,7 @@ func getOauth2CredCmdFunc(c *cli.Context) error {
 func listOauth2CredsCmdFunc(c *cli.Context) error {
 	creds, err := kongManager.ListAllOauth2Credentials(c.Context)
 	if err != nil {
-		fmt.Errorf("error listing oauth2 credentials: %s", err)
+		return err
 	}
 	for _, cred := range creds {
 		fmt.Print(kong.Oauth2String(cred))
