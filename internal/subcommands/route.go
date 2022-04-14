@@ -87,7 +87,11 @@ func listRoutesCmdFunc(c *cli.Context) error {
 		return err
 	}
 	for _, r := range routes {
-		fmt.Print(kong.RouteString(r))
+		routeStr, err := kong.RouteString(r)
+		if err != nil {
+			return err
+		}
+		fmt.Print(routeStr)
 	}
 	return nil
 }

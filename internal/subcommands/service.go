@@ -83,7 +83,11 @@ func listServicesCmdFunc(c *cli.Context) error {
 		return err
 	}
 	for _, s := range service {
-		fmt.Print(kong.ServiceString(s))
+		serviceStr, err := kong.ServiceString(s)
+		if err != nil {
+			return err
+		}
+		fmt.Print(serviceStr)
 	}
 	return nil
 }

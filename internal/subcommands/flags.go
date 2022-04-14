@@ -22,7 +22,7 @@ const (
 	defaultRouteServiceNameOrID = "kong-test-service"
 
 	consumerUsername = "username"
-	consumerCustomId = "custom_id"
+	consumerCustomId = "custom-id"
 
 	defaultConsumerUsername = "kong-test-username"
 )
@@ -153,11 +153,9 @@ var (
 		},
 		&cli.StringFlag{
 			Name:  "client-id",
-			Value: "kong-test-user",
 		},
 		&cli.StringFlag{
 			Name:  "client-secret",
-			Value: "kong-test-secret",
 		},
 	}
 	deleteOauth2Flags = []cli.Flag{

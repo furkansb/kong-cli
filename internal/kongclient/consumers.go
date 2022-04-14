@@ -8,15 +8,7 @@ import (
 )
 
 func (k *KongManager) CreateConsumer(ctx context.Context, consumer *kong.Consumer) (*kong.Consumer, error) {
-	schema, err := k.client.Schemas.Get(ctx, "consumers")
-	if err != nil {
-		return nil, fmt.Errorf("error getting schema: %s", err)
-	}
-	err = kong.FillEntityDefaults(consumer, schema)
-	if err != nil {
-		return nil, fmt.Errorf("error filling entity defaults: %s", err)
-	}
-	consumer, err = k.client.Consumers.Create(ctx, consumer)
+	consumer, err := k.client.Consumers.Create(ctx, consumer)
 	if err != nil {
 		return nil, fmt.Errorf("error creating consumer: %s", err)
 	}
@@ -57,7 +49,7 @@ func (k *KongManager) ListAllConsumers(ctx context.Context) ([]*kong.Consumer, e
 
 func ConsumerString(consumer *kong.Consumer) (string, error) {
 	if consumer == nil {
-		return "", nil
+		return "", fmt.Errorf("consumer is nil")
 	}
 	return fmt.Sprintf("Consumer Name: %s, ID: %s\n", strPointerToStr(consumer.Username), strPointerToStr(consumer.ID)), nil
 }

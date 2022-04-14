@@ -49,7 +49,7 @@ var ConsumerCommands []*cli.Command = []*cli.Command{
 
 func addConsumerCmdFunc(c *cli.Context) error {
 	username := c.String("username")
-	customID := c.String("custom_id")
+	customID := c.String("custom-id")
 	consumer := k.Consumer{Username: &username, CustomID: &customID}
 	_, err := kongManager.CreateConsumer(c.Context, &consumer)
 	if err != nil {
@@ -83,7 +83,11 @@ func listConsumersCmdFunc(c *cli.Context) error {
 		return err
 	}
 	for _, s := range consumer {
-		fmt.Print(kong.ConsumerString(s))
+		consumerStr, err := kong.ConsumerString(s)
+		if err != nil {
+			return err
+		}
+		fmt.Print(consumerStr)
 	}
 	return nil
 }
