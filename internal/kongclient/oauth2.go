@@ -8,15 +8,8 @@ import (
 )
 
 func (k *KongManager) CreateOauth2Credential(ctx context.Context, consumerUsernameOrID string, credential *kong.Oauth2Credential) (*kong.Oauth2Credential, error) {
-	schema, err := k.client.Schemas.Get(ctx, "oauth2_credentials")
-	if err != nil {
-		return nil, fmt.Errorf("error getting schema: %s", err)
-	}
-	err = kong.FillEntityDefaults(credential, schema)
-	if err != nil {
-		return nil, fmt.Errorf("error filling entity defaults: %s", err)
-	}
-	credential, err = k.client.Oauth2Credentials.Create(ctx, &consumerUsernameOrID, credential)
+	// TODO: check if credential is valid
+	credential, err := k.client.Oauth2Credentials.Create(ctx, &consumerUsernameOrID, credential)
 	if err != nil {
 		return nil, fmt.Errorf("error creating credential: %s", err)
 	}
@@ -47,7 +40,7 @@ func (k *KongManager) GetOauth2Credential(ctx context.Context, consumerUsernameO
 	return credential, nil
 }
 
-func (k *KongManager) ListAllOauth2Credentials(ctx context.Context, consumerUsernameOrID string) ([]*kong.Oauth2Credential, error) {
+func (k *KongManager) ListAllOauth2Credentials(ctx context.Context) ([]*kong.Oauth2Credential, error) {
 	credentials, err := k.client.Oauth2Credentials.ListAll(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("error listing credentials: %s", err)
@@ -67,6 +60,6 @@ func Oauth2String(oauth2Credential *kong.Oauth2Credential) (string, error) {
 	if oauth2Credential == nil {
 		return "", nil
 	}
-	
-	return fmt.Sprintf("Oauth2 ClientID: %s, Consumer: %s\n", strPointerToStr(oauth2Credential.ClientID), strPointerToStr(oauth2Credential.Consumer.Username)), nil
+
+	return fmt.Sprintf("Oauth2 ClientID: %s, ConsumerName: %s, ConsumerID: %s\n", strPointerToStr(oauth2Credential.ClientID), strPointerToStr(oauth2Credential.Consumer.Username), strPointerToStr(oauth2Credential.Consumer.ID)), nil
 }
