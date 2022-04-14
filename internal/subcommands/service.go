@@ -18,13 +18,7 @@ var ServiceCommands []*cli.Command = []*cli.Command{
 				Usage: "add a new service",
 				Flags: addServiceFlags,
 				Action: func(c *cli.Context) error {
-					name := c.String("name")
-					port := c.Int("port")
-					host := c.String("host")
-					protocol := c.String("protocol")
-					service := k.Service{Name: &name, Port: &port, Host: &host, Protocol: &protocol}
-					kongManager.CreateService(c.Context, &service)
-					return nil
+					return addServiceCmdFunc(c)
 				},
 			},
 			{
@@ -32,9 +26,7 @@ var ServiceCommands []*cli.Command = []*cli.Command{
 				Usage: "delete service",
 				Flags: deleteServiceFlags,
 				Action: func(c *cli.Context) error {
-					nameOrID := c.String("name-or-id")
-					kongManager.DeleteService(c.Context, nameOrID)
-					return nil
+					return deleteServiceCmdFunc(c)
 				},
 			},
 			{
@@ -42,23 +34,56 @@ var ServiceCommands []*cli.Command = []*cli.Command{
 				Usage: "get service",
 				Flags: getServiceFlags,
 				Action: func(c *cli.Context) error {
-					nameOrID := c.String("name-or-id")
-					service := kongManager.GetService(c.Context, nameOrID)
-					fmt.Print(kong.ServiceString(service))
-					return nil
+					return getServiceCmdFunc(c)
 				},
 			},
 			{
 				Name:  "list",
 				Usage: "list services",
 				Action: func(c *cli.Context) error {
-					service := kongManager.ListAllServices(c.Context)
-					for _, s := range service {
-						fmt.Print(kong.ServiceString(s))
-					}
-					return nil
+					return listServicesCmdFunc(c)
 				},
 			},
 		},
 	},
+}
+
+func addServiceCmdFunc(c *cli.Context) error {
+	name := c.String("name")
+	port := c.Int("port")
+	host := c.String("host")
+	protocol := c.String("protocol")
+	service := k.Service{Name: &name, Port: &port, Host: &host, Protocol: &protocol}
+	_, err := kongManager.CreateService(c.Context, &service)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func deleteServiceCmdFunc(c *cli.Context) error {
+	nameOrID := c.String("name-or-id")
+	kongManager.DeleteService(c.Context, nameOrID)
+	return nil
+}
+
+func getServiceCmdFunc(c *cli.Context) error {
+	nameOrID := c.String("name-or-id")
+	service, err := kongManager.GetService(c.Context, nameOrID)
+	if err != nil {
+		return err
+	}
+	fmt.Print(kong.ServiceString(service))
+	return nil
+}
+
+func listServicesCmdFunc(c *cli.Context) error {
+	service, err := kongManager.ListAllServices(c.Context)
+	if err != nil {
+		return err
+	}
+	for _, s := range service {
+		fmt.Print(kong.ServiceString(s))
+	}
+	return nil
 }

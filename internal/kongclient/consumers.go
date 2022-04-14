@@ -7,61 +7,57 @@ import (
 	"github.com/kong/go-kong/kong"
 )
 
-func (k *KongManager) CreateConsumer(ctx context.Context, consumer *kong.Consumer) *kong.Consumer {
+func (k *KongManager) CreateConsumer(ctx context.Context, consumer *kong.Consumer) (*kong.Consumer, error) {
 	schema, err := k.client.Schemas.Get(ctx, "consumers")
 	if err != nil {
-		fmt.Printf("Error getting schema: %s", err)
-		return nil
+		return nil, fmt.Errorf("error getting schema: %s", err)
 	}
 	err = kong.FillEntityDefaults(consumer, schema)
 	if err != nil {
-		fmt.Printf("Error filling entity defaults: %s", err)
-		return nil
+		return nil, fmt.Errorf("error filling entity defaults: %s", err)
 	}
 	consumer, err = k.client.Consumers.Create(ctx, consumer)
 	if err != nil {
-		fmt.Printf("Error creating consumer: %s", err)
-		return nil
+		return nil, fmt.Errorf("error creating consumer: %s", err)
 	}
-	return consumer
+	return consumer, nil
 }
 
-func (k *KongManager) DeleteConsumer(ctx context.Context, usernameOrID string) {
+func (k *KongManager) DeleteConsumer(ctx context.Context, usernameOrID string) error {
 	err := k.client.Consumers.Delete(ctx, &usernameOrID)
 	if err != nil {
-		fmt.Printf("Error deleting consumer: %s", err)
+		return fmt.Errorf("error deleting consumer: %s", err)
 	}
+	return nil
 }
 
-func (k *KongManager) GetConsumer(ctx context.Context, usernameOrID string) *kong.Consumer {
+func (k *KongManager) GetConsumer(ctx context.Context, usernameOrID string) (*kong.Consumer, error) {
 	consumer, err := k.client.Consumers.Get(ctx, &usernameOrID)
 	if err != nil {
-		fmt.Printf("Error getting consumer: %s", err)
-		return nil
+		return nil, fmt.Errorf("error getting consumer: %s", err)
 	}
-	return consumer
+	return consumer, nil
 }
 
-func (k *KongManager) UpdateConsumer(ctx context.Context, consumer *kong.Consumer) *kong.Consumer {
+func (k *KongManager) UpdateConsumer(ctx context.Context, consumer *kong.Consumer) (*kong.Consumer, error) {
 	consumer, err := k.client.Consumers.Update(ctx, consumer)
 	if err != nil {
-		fmt.Printf("Error updating consumer: %s", err)
-		return nil
+		return nil, fmt.Errorf("error updating consumer: %s", err)
 	}
-	return consumer
+	return consumer, nil
 }
 
-func (k *KongManager) ListAllConsumers(ctx context.Context) []*kong.Consumer {
+func (k *KongManager) ListAllConsumers(ctx context.Context) ([]*kong.Consumer, error) {
 	consumers, err := k.client.Consumers.ListAll(ctx)
 	if err != nil {
-		fmt.Printf("Error listing consumers: %s", err)
-		return nil
+		return nil, fmt.Errorf("error listing consumers: %s", err)
 	}
-	return consumers
+	return consumers, nil
 }
 
-func ConsumerString(consumer *kong.Consumer) string {
-	consumerCustomID := strPointerToStr(consumer.CustomID)
-	consumerUsername := strPointerToStr(consumer.Username)
-	return fmt.Sprintf("Consumer Name: %s, ID: %s\n", consumerUsername, consumerCustomID)
+func ConsumerString(consumer *kong.Consumer) (string, error) {
+	if consumer == nil {
+		return "", nil
+	}
+	return fmt.Sprintf("Consumer Name: %s, ID: %s\n", strPointerToStr(consumer.Username), strPointerToStr(consumer.ID)), nil
 }
