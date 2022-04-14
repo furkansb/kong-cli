@@ -113,38 +113,38 @@ var (
 var (
 	addConsumerFlags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  consumerUsername,
-			Value: "kong-test",
+			Name:     consumerUsername,
+			Value:    "kong-test",
 			Required: true,
 		},
 		&cli.StringFlag{
-			Name:  consumerCustomId,
-			Value: defaultConsumerUsername,
+			Name:     consumerCustomId,
+			Value:    defaultConsumerUsername,
 			Required: true,
 		},
 	}
 	deleteConsumerFlags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  consumerUsername,
-			Value: "kong-test",
+			Name:     consumerUsername,
+			Value:    "kong-test",
 			Required: true,
 		},
 	}
 	getConsumerFlags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  consumerUsername,
-			Value: "kong-test",
+			Name:     consumerUsername,
+			Value:    "kong-test",
 			Required: true,
 		},
-  	}
+	}
 )
 
 // Oauth2 cmd flags
 var (
 	addOauth2Flags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  "consumer-name-or-id",
-			Value: "kong-test",
+			Name:     "consumer-name-or-id",
+			Value:    "kong-test",
 			Required: true,
 		},
 		&cli.StringFlag{
@@ -152,33 +152,33 @@ var (
 			Value: "kong-app",
 		},
 		&cli.StringFlag{
-			Name:  "client-id",
+			Name: "client-id",
 		},
 		&cli.StringFlag{
-			Name:  "client-secret",
+			Name: "client-secret",
 		},
 	}
 	deleteOauth2Flags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  "consumer-name-or-id",
-			Value: "kong-test",
+			Name:     "consumer-name-or-id",
+			Value:    "kong-test",
 			Required: true,
 		},
 		&cli.StringFlag{
-			Name:  "client-id-or-id",
-			Value: "kong-test-user",
+			Name:     "client-id-or-id",
+			Value:    "kong-test-user",
 			Required: true,
 		},
 	}
 	getOauth2Flags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  "consumer-name-or-id",
-			Value: "kong-test",
+			Name:     "consumer-name-or-id",
+			Value:    "kong-test",
 			Required: true,
 		},
 		&cli.StringFlag{
-			Name:  "client-id-or-id",
-			Value: "kong-test-user",
+			Name:     "client-id-or-id",
+			Value:    "kong-test-user",
 			Required: true,
 		},
 	}

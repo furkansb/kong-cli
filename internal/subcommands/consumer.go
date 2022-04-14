@@ -95,4 +95,3 @@ func listConsumersCmdFunc(c *cli.Context) error {
 	}
 	return nil
 }
-

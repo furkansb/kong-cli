@@ -49,8 +49,10 @@ var Oauth2Commands []*cli.Command = []*cli.Command{
 
 func addOauth2CredCmdFunc(c *cli.Context) error {
 	name := c.String("name")
-	clientIDStr := c.String("client-id"); clientID := kong.StrToPointer(clientIDStr)
-	clientSecretStr := c.String("client-secret"); clientSecret := kong.StrToPointer(clientSecretStr)
+	clientIDStr := c.String("client-id")
+	clientID := kong.StrToPointer(clientIDStr)
+	clientSecretStr := c.String("client-secret")
+	clientSecret := kong.StrToPointer(clientSecretStr)
 	consumerUsernameOrID := c.String("consumer-name-or-id")
 	consumer, err := kongManager.GetConsumer(c.Context, consumerUsernameOrID)
 	if err != nil {
