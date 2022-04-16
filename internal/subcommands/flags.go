@@ -5,11 +5,22 @@ import (
 )
 
 const (
-	serviceName     = "name"
-	serviceProtocol = "protocol"
-	serviceHost     = "host"
-	servicePort     = "port"
-	serviceNameOrID = "name-or-id"
+	serviceName              = "name"
+	serviceProtocol          = "protocol"
+	serviceHost              = "host"
+	servicePort              = "port"
+	serviceNameOrID          = "name-or-id"
+	serviceRetries           = "retries"
+	serviceConnectTimeout    = "connect-timeout"
+	serviceWriteTimeout      = "write-timeout"
+	serviceReadTimeout       = "read-timeout"
+	serviceTags              = "tags"
+	serviceClientCertificate = "client-certificate-id"
+	serviceTlsVerify         = "tls-verify"
+	serviceTlsVerifyDepth    = "tls-verify-depth"
+	serviceCaCertificates    = "ca-certificates"
+	serviceUrl               = "url"
+	servicePath              = "path"
 
 	routeServiceNameOrID = "service-id"
 	routeProtocols       = "protocols"
@@ -43,10 +54,48 @@ var (
 			Value:    "kong-test.com",
 			Required: true,
 		},
+		&cli.StringFlag{
+			Name: servicePath,
+		},
 		&cli.IntFlag{
 			Name:     servicePort,
 			Value:    8080,
 			Required: true,
+		},
+		&cli.IntFlag{
+			Name:  serviceRetries,
+			Value: 5,
+		},
+		&cli.IntFlag{
+			Name:  serviceConnectTimeout,
+			Value: 60000,
+		},
+		&cli.IntFlag{
+			Name:  serviceWriteTimeout,
+			Value: 60000,
+		},
+		&cli.IntFlag{
+			Name:  serviceReadTimeout,
+			Value: 60000,
+		},
+		&cli.StringSliceFlag{
+			Name: serviceTags,
+		},
+		&cli.StringFlag{
+			Name: serviceClientCertificate,
+		},
+		&cli.BoolFlag{
+			Name: serviceTlsVerify,
+			Value: false,
+		},
+		&cli.StringFlag{
+			Name: serviceTlsVerifyDepth,
+		},
+		&cli.StringSliceFlag{
+			Name: serviceCaCertificates,
+		},
+		&cli.StringFlag{
+			Name: serviceUrl,
 		},
 	}
 	deleteServiceFlags = []cli.Flag{

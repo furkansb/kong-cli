@@ -53,7 +53,24 @@ func addServiceCmdFunc(c *cli.Context) error {
 	port := c.Int("port")
 	host := c.String("host")
 	protocol := c.String("protocol")
-	service := k.Service{Name: &name, Port: &port, Host: &host, Protocol: &protocol}
+	path := kong.StrToPointer(c.String("path"))
+	connectTimeout := c.Int("connect-timeout")
+	writeTimeout := c.Int("write-timeout")
+	readTimeout := c.Int("read-timeout")
+	tags := getSliceElementsPointer(c.StringSlice("tags"))
+	clientCertificateID := c.String("client-certificate-id")
+	tlsVerify := tlsBoolHandler(c.Bool("tls-verify"))
+	tlsVerifyDepth := tlsIntHandler(c.Int("tls-verify-depth"))
+	caCertificates := getSliceElementsPointer(c.StringSlice("ca-certificates"))
+	url := kong.StrToPointer(c.String("url"))
+	clientCertificate := clientCertFromID(clientCertificateID)
+	service := k.Service{Name: &name, Port: &port, Host: &host, Protocol: &protocol, Path: path, ConnectTimeout: &connectTimeout, WriteTimeout: &writeTimeout, ReadTimeout: &readTimeout, Tags: tags, ClientCertificate: clientCertificate, TLSVerify: tlsVerify, TLSVerifyDepth: tlsVerifyDepth, CACertificates: caCertificates, URL: url}
+	for i, tag := range c.StringSlice("tags") {
+		fmt.Println(i, tag)
+	}
+	for i, tag := range tags {
+		fmt.Println(i, *tag)
+	}
 	_, err := kongManager.CreateService(c.Context, &service)
 	if err != nil {
 		return err
@@ -90,4 +107,28 @@ func listServicesCmdFunc(c *cli.Context) error {
 		fmt.Print(serviceStr)
 	}
 	return nil
+}
+
+func tlsBoolHandler(b bool) *bool {
+	if !b {
+		return nil
+	}
+	return &b
+}
+
+func tlsIntHandler(i int) *int {
+	if i == 0 {
+		return nil
+	}
+	return &i
+}
+
+func clientCertFromID(clientCertID string) *k.Certificate {
+	var clientCertificate *k.Certificate
+	if clientCertID != "" {
+		clientCertificate = &k.Certificate{ID: &clientCertID}
+	} else {
+		clientCertificate = nil
+	}
+	return clientCertificate
 }

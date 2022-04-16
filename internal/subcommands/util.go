@@ -12,8 +12,9 @@ func mergeCommands(commands ...[]*cli.Command) []*cli.Command {
 
 func getSliceElementsPointer(sl []string) []*string {
 	result := make([]*string, len(sl))
-	for i, s := range sl {
-		result[i] = &s
+	for i, str := range sl {
+		strLocal := str
+		result[i] = &strLocal
 	}
 	return result
 }
