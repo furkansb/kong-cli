@@ -65,12 +65,6 @@ func addServiceCmdFunc(c *cli.Context) error {
 	url := kong.StrToPointer(c.String("url"))
 	clientCertificate := clientCertFromID(clientCertificateID)
 	service := k.Service{Name: &name, Port: &port, Host: &host, Protocol: &protocol, Path: path, ConnectTimeout: &connectTimeout, WriteTimeout: &writeTimeout, ReadTimeout: &readTimeout, Tags: tags, ClientCertificate: clientCertificate, TLSVerify: tlsVerify, TLSVerifyDepth: tlsVerifyDepth, CACertificates: caCertificates, URL: url}
-	for i, tag := range c.StringSlice("tags") {
-		fmt.Println(i, tag)
-	}
-	for i, tag := range tags {
-		fmt.Println(i, *tag)
-	}
 	_, err := kongManager.CreateService(c.Context, &service)
 	if err != nil {
 		return err
