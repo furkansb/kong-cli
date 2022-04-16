@@ -22,4 +22,3 @@ func StrToPointer(s string) *string {
 // 	}
 // 	return &i
 // }
-
