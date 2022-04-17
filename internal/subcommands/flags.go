@@ -47,8 +47,7 @@ const (
 
 	consumerUsername = "username"
 	consumerCustomId = "custom-id"
-
-	defaultConsumerUsername = "kong-test-username"
+	consumerTags     = "tags"
 )
 
 // Service cmd flags
@@ -214,8 +213,11 @@ var (
 		},
 		&cli.StringFlag{
 			Name:     consumerCustomId,
-			Value:    defaultConsumerUsername,
+			Value:    "kong-test-username",
 			Required: true,
+		},
+		&cli.StringSliceFlag{
+			Name: consumerTags,
 		},
 	}
 	deleteConsumerFlags = []cli.Flag{
