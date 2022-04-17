@@ -5,31 +5,31 @@ import (
 )
 
 const (
-	name              = "name"
-	protocol          = "protocol"
-	host              = "host"
-	port              = "port"
-	retries           = "retries"
-	connectTimeout    = "connect-timeout"
-	writeTimeout      = "write-timeout"
-	readTimeout       = "read-timeout"
-	tags              = "tags"
+	name                = "name"
+	protocol            = "protocol"
+	host                = "host"
+	port                = "port"
+	retries             = "retries"
+	connectTimeout      = "connect-timeout"
+	writeTimeout        = "write-timeout"
+	readTimeout         = "read-timeout"
+	tags                = "tags"
 	clientCertificateID = "client-certificate-id"
-	tlsVerify         = "tls-verify"
-	tlsVerifyDepth    = "tls-verify-depth"
-	caCertificates    = "ca-certificates"
-	url               = "url"
-	path              = "path"
+	tlsVerify           = "tls-verify"
+	tlsVerifyDepth      = "tls-verify-depth"
+	caCertificates      = "ca-certificates"
+	url                 = "url"
+	path                = "path"
 )
 
 // Service cmd flags
 var (
 	addServiceFlags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  name,
+			Name: name,
 		},
 		&cli.StringFlag{
-			Name:  protocol,
+			Name:     protocol,
 			Required: true,
 		},
 		&cli.StringFlag{
@@ -44,16 +44,16 @@ var (
 			Required: true,
 		},
 		&cli.IntFlag{
-			Name:  retries,
+			Name: retries,
 		},
 		&cli.IntFlag{
-			Name:  connectTimeout,
+			Name: connectTimeout,
 		},
 		&cli.IntFlag{
-			Name:  writeTimeout,
+			Name: writeTimeout,
 		},
 		&cli.IntFlag{
-			Name:  readTimeout,
+			Name: readTimeout,
 		},
 		&cli.StringSliceFlag{
 			Name: tags,
@@ -62,7 +62,7 @@ var (
 			Name: clientCertificateID,
 		},
 		&cli.BoolFlag{
-			Name:  tlsVerify,
+			Name: tlsVerify,
 		},
 		&cli.StringFlag{
 			Name: tlsVerifyDepth,
@@ -84,7 +84,7 @@ var (
 		&cli.StringFlag{
 			Name:     name,
 			Required: true,
-			Usage: "The service name or id",
+			Usage:    "The service name or id",
 		},
 	}
 )

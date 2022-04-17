@@ -18,42 +18,40 @@ func init() {
 	}
 }
 
-func Commands() []*cli.Command {
-	return []*cli.Command{
-		{
-			Name:  "service",
-			Usage: "service related commands",
-			Subcommands: []*cli.Command{
-				{
-					Name:  "add",
-					Usage: "add a new service",
-					Flags: addServiceFlags,
-					Action: func(c *cli.Context) error {
-						return addServiceCmdFunc(c)
-					},
+func Command() *cli.Command {
+	return &cli.Command{
+		Name:  "service",
+		Usage: "service related commands",
+		Subcommands: []*cli.Command{
+			{
+				Name:  "add",
+				Usage: "add a new service",
+				Flags: addServiceFlags,
+				Action: func(c *cli.Context) error {
+					return addServiceCmdFunc(c)
 				},
-				{
-					Name:  "delete",
-					Usage: "delete service",
-					Flags: deleteServiceFlags,
-					Action: func(c *cli.Context) error {
-						return deleteServiceCmdFunc(c)
-					},
+			},
+			{
+				Name:  "delete",
+				Usage: "delete service",
+				Flags: deleteServiceFlags,
+				Action: func(c *cli.Context) error {
+					return deleteServiceCmdFunc(c)
 				},
-				{
-					Name:  "get",
-					Usage: "get service",
-					Flags: getServiceFlags,
-					Action: func(c *cli.Context) error {
-						return getServiceCmdFunc(c)
-					},
+			},
+			{
+				Name:  "get",
+				Usage: "get service",
+				Flags: getServiceFlags,
+				Action: func(c *cli.Context) error {
+					return getServiceCmdFunc(c)
 				},
-				{
-					Name:  "list",
-					Usage: "list services",
-					Action: func(c *cli.Context) error {
-						return listServicesCmdFunc(c)
-					},
+			},
+			{
+				Name:  "list",
+				Usage: "list services",
+				Action: func(c *cli.Context) error {
+					return listServicesCmdFunc(c)
 				},
 			},
 		},

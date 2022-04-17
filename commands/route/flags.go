@@ -43,7 +43,7 @@ var (
 			Name: methods,
 		},
 		&cli.StringSliceFlag{
-			Name:  hosts,
+			Name: hosts,
 		},
 		&cli.StringSliceFlag{
 			Name:     paths,
@@ -85,14 +85,14 @@ var (
 	deleteRouteFlags = []cli.Flag{
 		&cli.StringFlag{
 			Name:     serviceID,
-			Usage: "The service id or name to which the route belongs to",
+			Usage:    "The service id or name to which the route belongs to",
 			Required: true,
 		},
 	}
 	getRouteFlags = []cli.Flag{
 		&cli.StringFlag{
 			Name:     serviceID,
-			Usage: "The service id or name to which the route belongs to",
+			Usage:    "The service id or name to which the route belongs to",
 			Required: true,
 		},
 	}

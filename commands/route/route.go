@@ -18,42 +18,40 @@ func init() {
 	}
 }
 
-func Commands() []*cli.Command {
-	return []*cli.Command{
-		{
-			Name:  "route",
-			Usage: "route related commands",
-			Subcommands: []*cli.Command{
-				{
-					Name:  "add",
-					Usage: "add a new route",
-					Flags: addRouteFlags,
-					Action: func(c *cli.Context) error {
-						return addRouteCmdFunc(c)
-					},
+func Command() *cli.Command {
+	return &cli.Command{
+		Name:  "route",
+		Usage: "route related commands",
+		Subcommands: []*cli.Command{
+			{
+				Name:  "add",
+				Usage: "add a new route",
+				Flags: addRouteFlags,
+				Action: func(c *cli.Context) error {
+					return addRouteCmdFunc(c)
 				},
-				{
-					Name:  "delete",
-					Usage: "delete route",
-					Flags: deleteRouteFlags,
-					Action: func(c *cli.Context) error {
-						return deleteRouteCmdFunc(c)
-					},
+			},
+			{
+				Name:  "delete",
+				Usage: "delete route",
+				Flags: deleteRouteFlags,
+				Action: func(c *cli.Context) error {
+					return deleteRouteCmdFunc(c)
 				},
-				{
-					Name:  "get",
-					Usage: "get route",
-					Flags: getRouteFlags,
-					Action: func(c *cli.Context) error {
-						return getRouteCmdFunc(c)
-					},
+			},
+			{
+				Name:  "get",
+				Usage: "get route",
+				Flags: getRouteFlags,
+				Action: func(c *cli.Context) error {
+					return getRouteCmdFunc(c)
 				},
-				{
-					Name:  "list",
-					Usage: "list routes",
-					Action: func(c *cli.Context) error {
-						return listRoutesCmdFunc(c)
-					},
+			},
+			{
+				Name:  "list",
+				Usage: "list routes",
+				Action: func(c *cli.Context) error {
+					return listRoutesCmdFunc(c)
 				},
 			},
 		},

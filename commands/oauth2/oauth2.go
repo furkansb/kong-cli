@@ -17,47 +17,45 @@ func init() {
 	}
 }
 
-func Commands() []*cli.Command {
-	return []*cli.Command{
-		{
-			Name:  "oauth2",
-			Usage: "oauth2 related commands",
-			Subcommands: []*cli.Command{
-				{
-					Name:  "add",
-					Usage: "add a new oauth2 credential",
-					Flags: addOauth2Flags,
-					Action: func(c *cli.Context) error {
-						return addOauth2CredCmdFunc(c)
-					},
+func Command() *cli.Command {
+	return &cli.Command{
+		Name:  "oauth2",
+		Usage: "oauth2 related commands",
+		Subcommands: []*cli.Command{
+			{
+				Name:  "add",
+				Usage: "add a new oauth2 credential",
+				Flags: addOauth2Flags,
+				Action: func(c *cli.Context) error {
+					return addOauth2CredCmdFunc(c)
 				},
-				{
-					Name:  "delete",
-					Usage: "delete oauth2 credential",
-					Flags: deleteOauth2Flags,
-					Action: func(c *cli.Context) error {
-						return deleteOauth2CredCmdFunc(c)
-					},
+			},
+			{
+				Name:  "delete",
+				Usage: "delete oauth2 credential",
+				Flags: deleteOauth2Flags,
+				Action: func(c *cli.Context) error {
+					return deleteOauth2CredCmdFunc(c)
 				},
-				{
-					Name:  "get",
-					Usage: "get oauth2 credential",
-					Flags: getOauth2Flags,
-					Action: func(c *cli.Context) error {
-						return getOauth2CredCmdFunc(c)
-					},
+			},
+			{
+				Name:  "get",
+				Usage: "get oauth2 credential",
+				Flags: getOauth2Flags,
+				Action: func(c *cli.Context) error {
+					return getOauth2CredCmdFunc(c)
 				},
-				{
-					Name:  "list",
-					Usage: "list oauth2 credentials",
-					Action: func(c *cli.Context) error {
-						return listOauth2CredsCmdFunc(c)
-					},
+			},
+			{
+				Name:  "list",
+				Usage: "list oauth2 credentials",
+				Action: func(c *cli.Context) error {
+					return listOauth2CredsCmdFunc(c)
 				},
 			},
 		},
 	}
-} 
+}
 
 func addOauth2CredCmdFunc(c *cli.Context) error {
 	name := c.String("name")

@@ -17,42 +17,40 @@ func init() {
 	}
 }
 
-func Commands() []*cli.Command {
-	return []*cli.Command{
-		{
-			Name:  "consumer",
-			Usage: "consumer related commands",
-			Subcommands: []*cli.Command{
-				{
-					Name:  "add",
-					Usage: "add a new consumer",
-					Flags: addConsumerFlags,
-					Action: func(c *cli.Context) error {
-						return addConsumerCmdFunc(c)
-					},
+func Command() *cli.Command {
+	return &cli.Command{
+		Name:  "consumer",
+		Usage: "consumer related commands",
+		Subcommands: []*cli.Command{
+			{
+				Name:  "add",
+				Usage: "add a new consumer",
+				Flags: addConsumerFlags,
+				Action: func(c *cli.Context) error {
+					return addConsumerCmdFunc(c)
 				},
-				{
-					Name:  "delete",
-					Usage: "delete consumer",
-					Flags: deleteConsumerFlags,
-					Action: func(c *cli.Context) error {
-						return deleteConsumerCmdFunc(c)
-					},
+			},
+			{
+				Name:  "delete",
+				Usage: "delete consumer",
+				Flags: deleteConsumerFlags,
+				Action: func(c *cli.Context) error {
+					return deleteConsumerCmdFunc(c)
 				},
-				{
-					Name:  "get",
-					Usage: "get consumer",
-					Flags: getConsumerFlags,
-					Action: func(c *cli.Context) error {
-						return getConsumerCmdFunc(c)
-					},
+			},
+			{
+				Name:  "get",
+				Usage: "get consumer",
+				Flags: getConsumerFlags,
+				Action: func(c *cli.Context) error {
+					return getConsumerCmdFunc(c)
 				},
-				{
-					Name:  "list",
-					Usage: "list consumers",
-					Action: func(c *cli.Context) error {
-						return listConsumersCmdFunc(c)
-					},
+			},
+			{
+				Name:  "list",
+				Usage: "list consumers",
+				Action: func(c *cli.Context) error {
+					return listConsumersCmdFunc(c)
 				},
 			},
 		},
