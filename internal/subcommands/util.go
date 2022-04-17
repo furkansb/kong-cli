@@ -19,6 +19,13 @@ func getSliceElementsPointer(sl []string) []*string {
 	return result
 }
 
+func boolHandler(b bool) *bool {
+	if !b {
+		return nil
+	}
+	return &b
+}
+
 func AllCommands() []*cli.Command {
 	return mergeCommands(ServiceCommands, RouteCommands, ConsumerCommands, Oauth2Commands)
 }

@@ -3,6 +3,7 @@ package subcommands
 import (
 	"fmt"
 
+	"github.com/furkansb/kong-cli/internal/kongclient"
 	kong "github.com/furkansb/kong-cli/internal/kongclient"
 	k "github.com/kong/go-kong/kong"
 	"github.com/urfave/cli/v2"
@@ -48,16 +49,26 @@ var RouteCommands []*cli.Command = []*cli.Command{
 	},
 }
 
+// TODO: support headers with flags
 func addRouteCmdFunc(c *cli.Context) error {
-	hosts := c.StringSlice("hosts")
-	paths := c.StringSlice("paths")
-	protocols := c.StringSlice("protocols")
-	serviceNameOrID := c.String("service-id")
-	service, err := kongManager.GetService(c.Context, serviceNameOrID)
+	name := kongclient.StrToPointer(c.String("name"))
+	hosts := getSliceElementsPointer(c.StringSlice("hosts"))
+	protocols := getSliceElementsPointer(c.StringSlice("protocols"))
+	methods := getSliceElementsPointer(c.StringSlice("methods"))
+	paths := getSliceElementsPointer(c.StringSlice("paths"))
+	httpsRedirectStatusCode := c.Int("https-redirect-status-code")
+	regexPriority := c.Int("regex-priority")
+	stripPath := boolHandler(c.Bool("strip-path"))
+	preserveHost := boolHandler(c.Bool("preserve-host"))
+	requestBuffering := boolHandler(c.Bool("request-buffering"))
+	responseBuffering := boolHandler(c.Bool("response-buffering"))
+	tags := getSliceElementsPointer(c.StringSlice("tags"))
+	serviceID := c.String("service-id")
+	service, err := kongManager.GetService(c.Context, serviceID)
 	if err != nil {
 		return err
 	}
-	route := k.Route{Hosts: getSliceElementsPointer(hosts), Paths: getSliceElementsPointer(paths), Protocols: getSliceElementsPointer(protocols), Service: service}
+	route := k.Route{Name: name, Hosts: hosts, Protocols: protocols, Methods: methods, Paths: paths, HTTPSRedirectStatusCode: &httpsRedirectStatusCode, RegexPriority: &regexPriority, StripPath: stripPath, PreserveHost: preserveHost, RequestBuffering: requestBuffering, ResponseBuffering: responseBuffering, Tags: tags, Service: service}
 	_, err = kongManager.CreateRoute(c.Context, &route)
 	if err != nil {
 		return err

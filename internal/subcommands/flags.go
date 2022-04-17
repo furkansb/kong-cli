@@ -22,15 +22,28 @@ const (
 	serviceUrl               = "url"
 	servicePath              = "path"
 
-	routeServiceNameOrID = "service-id"
-	routeProtocols       = "protocols"
-	routeHosts           = "hosts"
-	routePaths           = "paths"
+	routeName                    = "name"
+	routeProtocols               = "protocols"
+	routeMethods                 = "methods"
+	routeHosts                   = "hosts"
+	routePaths                   = "paths"
+	routeHeaders                 = "headers"
+	routeHttpsRedirectStatusCode = "https-redirect-status-code"
+	routeRegexPriority           = "regex-priority"
+	routeStripPath               = "strip-path"
+	routePathHandling            = "path-handling"
+	routePreserveHost            = "preserve-host"
+	routeRequestBuffering        = "request-buffering"
+	routeResponseBuffering       = "response-buffering"
+	routeSnis                    = "snis"
+	routeSources                 = "sources"
+	routeDestinations            = "destinations"
+	routeTags                    = "tags"
+	routeServiceID               = "service-id"
 
-	defaultRouteHosts           = "kong-test.com"
-	defaultRouteProtocols       = "http"
-	defaultRoutePaths           = "/api/v1"
-	defaultRouteServiceNameOrID = "kong-test-service"
+	defaultRouteHosts     = "kong-test.com"
+	defaultRouteProtocols = "http"
+	defaultRoutePaths     = "/api/v1"
 
 	consumerUsername = "username"
 	consumerCustomId = "custom-id"
@@ -85,7 +98,7 @@ var (
 			Name: serviceClientCertificate,
 		},
 		&cli.BoolFlag{
-			Name: serviceTlsVerify,
+			Name:  serviceTlsVerify,
 			Value: false,
 		},
 		&cli.StringFlag{
@@ -117,9 +130,8 @@ var (
 // Route cmd flags
 var (
 	addRouteFlags = []cli.Flag{
-		&cli.StringSliceFlag{
-			Name:  routeHosts,
-			Value: cli.NewStringSlice(defaultRouteHosts),
+		&cli.StringFlag{
+			Name: routeName,
 		},
 		&cli.StringSliceFlag{
 			Name:     routeProtocols,
@@ -127,13 +139,47 @@ var (
 			Required: true,
 		},
 		&cli.StringSliceFlag{
+			Name: routeMethods,
+		},
+		&cli.StringSliceFlag{
+			Name:  routeHosts,
+			Value: cli.NewStringSlice(defaultRouteHosts),
+		},
+		&cli.StringSliceFlag{
 			Name:     routePaths,
 			Value:    cli.NewStringSlice(defaultRoutePaths),
 			Required: true,
 		},
+		&cli.StringSliceFlag{
+			Name: routeHeaders,
+		},
+		&cli.IntFlag{
+			Name: routeHttpsRedirectStatusCode,
+		},
+		&cli.IntFlag{
+			Name: routeRegexPriority,
+		},
+		&cli.BoolFlag{
+			Name: routeStripPath,
+		},
 		&cli.StringFlag{
-			Name:     routeServiceNameOrID,
-			Value:    defaultRouteServiceNameOrID,
+			Name: routePathHandling,
+		},
+		&cli.BoolFlag{
+			Name: routePreserveHost,
+		},
+		&cli.BoolFlag{
+			Name: routeRequestBuffering,
+		},
+		&cli.BoolFlag{
+			Name: routeResponseBuffering,
+		},
+		&cli.StringSliceFlag{
+			Name: routeTags,
+		},
+		&cli.StringFlag{
+			Name:     routeServiceID,
+			Usage:    "The service id or name to which the route belongs to",
 			Required: true,
 		},
 	}

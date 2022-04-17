@@ -59,7 +59,7 @@ func addServiceCmdFunc(c *cli.Context) error {
 	readTimeout := c.Int("read-timeout")
 	tags := getSliceElementsPointer(c.StringSlice("tags"))
 	clientCertificateID := c.String("client-certificate-id")
-	tlsVerify := tlsBoolHandler(c.Bool("tls-verify"))
+	tlsVerify := boolHandler(c.Bool("tls-verify"))
 	tlsVerifyDepth := tlsIntHandler(c.Int("tls-verify-depth"))
 	caCertificates := getSliceElementsPointer(c.StringSlice("ca-certificates"))
 	url := kong.StrToPointer(c.String("url"))
@@ -101,13 +101,6 @@ func listServicesCmdFunc(c *cli.Context) error {
 		fmt.Print(serviceStr)
 	}
 	return nil
-}
-
-func tlsBoolHandler(b bool) *bool {
-	if !b {
-		return nil
-	}
-	return &b
 }
 
 func tlsIntHandler(i int) *int {
