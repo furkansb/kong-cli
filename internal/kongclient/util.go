@@ -1,5 +1,7 @@
 package kongclient
 
+import "os"
+
 func strPointerToStr(s *string) string {
 	if s == nil {
 		return ""
@@ -29,4 +31,12 @@ func BoolHandler(b bool) *bool {
 		return nil
 	}
 	return &b
+}
+
+func GetBaseUrl() string {
+	baseUrl := os.Getenv("KONG_ADMIN_URL")
+	if baseUrl == "" {
+		return "http://localhost:8001"
+	}
+	return baseUrl
 }

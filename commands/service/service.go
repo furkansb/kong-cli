@@ -1,4 +1,4 @@
-package subcommands
+package service
 
 import (
 	"fmt"
@@ -8,44 +8,56 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var ServiceCommands []*cli.Command = []*cli.Command{
-	{
-		Name:  "service",
-		Usage: "service related commands",
-		Subcommands: []*cli.Command{
-			{
-				Name:  "add",
-				Usage: "add a new service",
-				Flags: addServiceFlags,
-				Action: func(c *cli.Context) error {
-					return addServiceCmdFunc(c)
+var kongManager *kong.KongManager
+
+func init() {
+	var err error
+	kongManager, err = kong.NewKongManager(kong.GetBaseUrl())
+	if err != nil {
+		panic(err)
+	}
+}
+
+func Commands() []*cli.Command {
+	return []*cli.Command{
+		{
+			Name:  "service",
+			Usage: "service related commands",
+			Subcommands: []*cli.Command{
+				{
+					Name:  "add",
+					Usage: "add a new service",
+					Flags: addServiceFlags,
+					Action: func(c *cli.Context) error {
+						return addServiceCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "delete",
-				Usage: "delete service",
-				Flags: deleteServiceFlags,
-				Action: func(c *cli.Context) error {
-					return deleteServiceCmdFunc(c)
+				{
+					Name:  "delete",
+					Usage: "delete service",
+					Flags: deleteServiceFlags,
+					Action: func(c *cli.Context) error {
+						return deleteServiceCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "get",
-				Usage: "get service",
-				Flags: getServiceFlags,
-				Action: func(c *cli.Context) error {
-					return getServiceCmdFunc(c)
+				{
+					Name:  "get",
+					Usage: "get service",
+					Flags: getServiceFlags,
+					Action: func(c *cli.Context) error {
+						return getServiceCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "list",
-				Usage: "list services",
-				Action: func(c *cli.Context) error {
-					return listServicesCmdFunc(c)
+				{
+					Name:  "list",
+					Usage: "list services",
+					Action: func(c *cli.Context) error {
+						return listServicesCmdFunc(c)
+					},
 				},
 			},
 		},
-	},
+	}
 }
 
 func addServiceCmdFunc(c *cli.Context) error {
