@@ -1,4 +1,4 @@
-package subcommands
+package consumer
 
 import (
 	"fmt"
@@ -7,44 +7,56 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var ConsumerCommands []*cli.Command = []*cli.Command{
-	{
-		Name:  "consumer",
-		Usage: "consumer related commands",
-		Subcommands: []*cli.Command{
-			{
-				Name:  "add",
-				Usage: "add a new consumer",
-				Flags: addConsumerFlags,
-				Action: func(c *cli.Context) error {
-					return addConsumerCmdFunc(c)
+var kongManager *kong.KongManager
+
+func init() {
+	var err error
+	kongManager, err = kong.NewKongManager(kong.GetBaseUrl())
+	if err != nil {
+		panic(err)
+	}
+}
+
+func Commands() []*cli.Command {
+	return []*cli.Command{
+		{
+			Name:  "consumer",
+			Usage: "consumer related commands",
+			Subcommands: []*cli.Command{
+				{
+					Name:  "add",
+					Usage: "add a new consumer",
+					Flags: addConsumerFlags,
+					Action: func(c *cli.Context) error {
+						return addConsumerCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "delete",
-				Usage: "delete consumer",
-				Flags: deleteConsumerFlags,
-				Action: func(c *cli.Context) error {
-					return deleteConsumerCmdFunc(c)
+				{
+					Name:  "delete",
+					Usage: "delete consumer",
+					Flags: deleteConsumerFlags,
+					Action: func(c *cli.Context) error {
+						return deleteConsumerCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "get",
-				Usage: "get consumer",
-				Flags: getConsumerFlags,
-				Action: func(c *cli.Context) error {
-					return getConsumerCmdFunc(c)
+				{
+					Name:  "get",
+					Usage: "get consumer",
+					Flags: getConsumerFlags,
+					Action: func(c *cli.Context) error {
+						return getConsumerCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "list",
-				Usage: "list consumers",
-				Action: func(c *cli.Context) error {
-					return listConsumersCmdFunc(c)
+				{
+					Name:  "list",
+					Usage: "list consumers",
+					Action: func(c *cli.Context) error {
+						return listConsumersCmdFunc(c)
+					},
 				},
 			},
 		},
-	},
+	}
 }
 
 func addConsumerCmdFunc(c *cli.Context) error {

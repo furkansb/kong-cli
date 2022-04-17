@@ -1,4 +1,4 @@
-package subcommands
+package route
 
 import (
 	"fmt"
@@ -8,44 +8,56 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var RouteCommands []*cli.Command = []*cli.Command{
-	{
-		Name:  "route",
-		Usage: "route related commands",
-		Subcommands: []*cli.Command{
-			{
-				Name:  "add",
-				Usage: "add a new route",
-				Flags: addRouteFlags,
-				Action: func(c *cli.Context) error {
-					return addRouteCmdFunc(c)
+var kongManager *kong.KongManager
+
+func init() {
+	var err error
+	kongManager, err = kong.NewKongManager(kong.GetBaseUrl())
+	if err != nil {
+		panic(err)
+	}
+}
+
+func Commands() []*cli.Command {
+	return []*cli.Command{
+		{
+			Name:  "route",
+			Usage: "route related commands",
+			Subcommands: []*cli.Command{
+				{
+					Name:  "add",
+					Usage: "add a new route",
+					Flags: addRouteFlags,
+					Action: func(c *cli.Context) error {
+						return addRouteCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "delete",
-				Usage: "delete route",
-				Flags: deleteRouteFlags,
-				Action: func(c *cli.Context) error {
-					return deleteRouteCmdFunc(c)
+				{
+					Name:  "delete",
+					Usage: "delete route",
+					Flags: deleteRouteFlags,
+					Action: func(c *cli.Context) error {
+						return deleteRouteCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "get",
-				Usage: "get route",
-				Flags: getRouteFlags,
-				Action: func(c *cli.Context) error {
-					return getRouteCmdFunc(c)
+				{
+					Name:  "get",
+					Usage: "get route",
+					Flags: getRouteFlags,
+					Action: func(c *cli.Context) error {
+						return getRouteCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "list",
-				Usage: "list routes",
-				Action: func(c *cli.Context) error {
-					return listRoutesCmdFunc(c)
+				{
+					Name:  "list",
+					Usage: "list routes",
+					Action: func(c *cli.Context) error {
+						return listRoutesCmdFunc(c)
+					},
 				},
 			},
 		},
-	},
+	}
 }
 
 // TODO: support headers with flags

@@ -1,4 +1,4 @@
-package subcommands
+package oauth2
 
 import (
 	"fmt"
@@ -7,45 +7,57 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var Oauth2Commands []*cli.Command = []*cli.Command{
-	{
-		Name:  "oauth2",
-		Usage: "oauth2 related commands",
-		Subcommands: []*cli.Command{
-			{
-				Name:  "add",
-				Usage: "add a new oauth2 credential",
-				Flags: addOauth2Flags,
-				Action: func(c *cli.Context) error {
-					return addOauth2CredCmdFunc(c)
+var kongManager *kong.KongManager
+
+func init() {
+	var err error
+	kongManager, err = kong.NewKongManager(kong.GetBaseUrl())
+	if err != nil {
+		panic(err)
+	}
+}
+
+func Commands() []*cli.Command {
+	return []*cli.Command{
+		{
+			Name:  "oauth2",
+			Usage: "oauth2 related commands",
+			Subcommands: []*cli.Command{
+				{
+					Name:  "add",
+					Usage: "add a new oauth2 credential",
+					Flags: addOauth2Flags,
+					Action: func(c *cli.Context) error {
+						return addOauth2CredCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "delete",
-				Usage: "delete oauth2 credential",
-				Flags: deleteOauth2Flags,
-				Action: func(c *cli.Context) error {
-					return deleteOauth2CredCmdFunc(c)
+				{
+					Name:  "delete",
+					Usage: "delete oauth2 credential",
+					Flags: deleteOauth2Flags,
+					Action: func(c *cli.Context) error {
+						return deleteOauth2CredCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "get",
-				Usage: "get oauth2 credential",
-				Flags: getOauth2Flags,
-				Action: func(c *cli.Context) error {
-					return getOauth2CredCmdFunc(c)
+				{
+					Name:  "get",
+					Usage: "get oauth2 credential",
+					Flags: getOauth2Flags,
+					Action: func(c *cli.Context) error {
+						return getOauth2CredCmdFunc(c)
+					},
 				},
-			},
-			{
-				Name:  "list",
-				Usage: "list oauth2 credentials",
-				Action: func(c *cli.Context) error {
-					return listOauth2CredsCmdFunc(c)
+				{
+					Name:  "list",
+					Usage: "list oauth2 credentials",
+					Action: func(c *cli.Context) error {
+						return listOauth2CredsCmdFunc(c)
+					},
 				},
 			},
 		},
-	},
-}
+	}
+} 
 
 func addOauth2CredCmdFunc(c *cli.Context) error {
 	name := c.String("name")
