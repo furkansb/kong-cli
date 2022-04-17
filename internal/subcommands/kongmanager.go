@@ -5,7 +5,15 @@ import (
 	"os"
 )
 
-var kongManager *kong.KongManager = kong.NewKongManager(getBaseUrl())
+var kongManager *kong.KongManager
+
+func init() {
+	var err error
+	kongManager, err = kong.NewKongManager(getBaseUrl())
+	if err != nil {
+		panic(err)
+	}
+}
 
 func getBaseUrl() string {
 	baseUrl := os.Getenv("KONG_ADMIN_URL")

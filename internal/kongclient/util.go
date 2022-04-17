@@ -15,10 +15,18 @@ func StrToPointer(s string) *string {
 	return &s
 }
 
-// // Gives a pointer to a string, returns nil for empty strings
-// func handleEmptyInt(i int) *int {
-// 	if i == 0 {
-// 		return nil
-// 	}
-// 	return &i
-// }
+func GetSliceElementsPointer(sl []string) []*string {
+	result := make([]*string, len(sl))
+	for i, str := range sl {
+		strLocal := str
+		result[i] = &strLocal
+	}
+	return result
+}
+
+func BoolHandler(b bool) *bool {
+	if !b {
+		return nil
+	}
+	return &b
+}

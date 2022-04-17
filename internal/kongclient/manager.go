@@ -11,11 +11,10 @@ type KongManager struct {
 }
 
 // Create a new KongManager
-func NewKongManager(url string) *KongManager {
+func NewKongManager(url string) (*KongManager, error) {
 	kongClient, err := kong.NewClient(&url, http.DefaultClient)
 	if err != nil {
-		fmt.Errorf("Error creating kong client: %s", err)
-		return nil
+		return nil, fmt.Errorf("Error creating kong client: %s", err)
 	}
-	return &KongManager{client: kongClient}
+	return &KongManager{client: kongClient}, nil
 }

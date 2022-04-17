@@ -10,22 +10,6 @@ func mergeCommands(commands ...[]*cli.Command) []*cli.Command {
 	return result
 }
 
-func getSliceElementsPointer(sl []string) []*string {
-	result := make([]*string, len(sl))
-	for i, str := range sl {
-		strLocal := str
-		result[i] = &strLocal
-	}
-	return result
-}
-
-func boolHandler(b bool) *bool {
-	if !b {
-		return nil
-	}
-	return &b
-}
-
 func AllCommands() []*cli.Command {
 	return mergeCommands(ServiceCommands, RouteCommands, ConsumerCommands, Oauth2Commands)
 }
