@@ -3,7 +3,6 @@ package subcommands
 import (
 	"fmt"
 
-	"github.com/furkansb/kong-cli/internal/kongclient"
 	kong "github.com/furkansb/kong-cli/internal/kongclient"
 	k "github.com/kong/go-kong/kong"
 	"github.com/urfave/cli/v2"
@@ -51,7 +50,7 @@ var RouteCommands []*cli.Command = []*cli.Command{
 
 // TODO: support headers with flags
 func addRouteCmdFunc(c *cli.Context) error {
-	name := kongclient.StrToPointer(c.String("name"))
+	name := kong.StrToPointer(c.String("name"))
 	hosts := kong.GetSliceElementsPointer(c.StringSlice("hosts"))
 	protocols := kong.GetSliceElementsPointer(c.StringSlice("protocols"))
 	methods := kong.GetSliceElementsPointer(c.StringSlice("methods"))
