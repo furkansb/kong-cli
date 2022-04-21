@@ -60,7 +60,7 @@ func Command() *cli.Command {
 func addConsumerCmdFunc(c *cli.Context) error {
 	username := c.String("username")
 	customID := c.String("custom-id")
-	tags := kong.GetSliceElementsPointer(c.StringSlice("tags"))
+	tags := kong.PsliceFromStrSlice(c.StringSlice("tags"))
 	consumer := k.Consumer{Username: &username, CustomID: &customID, Tags: tags}
 	_, err := kongManager.CreateConsumer(c.Context, &consumer)
 	if err != nil {

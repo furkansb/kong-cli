@@ -17,11 +17,20 @@ func StrToPointer(s string) *string {
 	return &s
 }
 
-func GetSliceElementsPointer(sl []string) []*string {
+func PsliceFromStrSlice(sl []string) []*string {
 	result := make([]*string, len(sl))
 	for i, str := range sl {
 		strLocal := str
 		result[i] = &strLocal
+	}
+	return result
+}
+
+func StrSliceFromPSlice(sl []*string) []string {
+	result := make([]string, len(sl))
+	for i, str := range sl {
+		strLocal := str
+		result[i] = *strLocal
 	}
 	return result
 }

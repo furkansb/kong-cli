@@ -60,8 +60,26 @@ func ServiceString(service *kong.Service) (string, error) {
 	if service == nil {
 		return "", fmt.Errorf("service is nil")
 	}
-	serviceID := strPointerToStr(service.ID)
-	serviceName := strPointerToStr(service.Name)
-	serviceHost := strPointerToStr(service.Host)
-	return fmt.Sprintf("Service ID: %s, name: %s, host: %s, port: %d\n", serviceID, serviceName, serviceHost, service.Port), nil
+	name := strPointerToStr(service.Name)
+	host := strPointerToStr(service.Host)
+	tags := StrSliceFromPSlice(service.Tags)
+	return fmt.Sprintf("Service Name: %s, Host: %s, Tags: %s\n", name, host, tags), nil
+}
+
+func ServiceStringDetailed(service *kong.Service) (string, error) {
+	if service == nil {
+		return "", fmt.Errorf("service is nil")
+	}
+	id := strPointerToStr(service.ID)
+	name := strPointerToStr(service.Name)
+	host := strPointerToStr(service.Host)
+	port := *service.Port
+	path := strPointerToStr(service.Path)
+	protocol := strPointerToStr(service.Protocol)
+	connectTimeout := *service.ConnectTimeout
+	readTimeout := *service.ReadTimeout
+	writeTimeout := *service.WriteTimeout
+	retries := *service.Retries
+	tags := StrSliceFromPSlice(service.Tags)
+	return fmt.Sprintf("Service ID: %s, Name: %s, Host: %s, Port: %d, Path: %s, Protocol: %s, Connect Timeout: %d, Read Timeout: %d, Write Timeout: %d, Retries: %d, Tags: %s\n", id, name, host, port, path, protocol, connectTimeout, readTimeout, writeTimeout, retries, tags), nil
 }

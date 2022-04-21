@@ -78,10 +78,3 @@ func (k *KongManager) ListAllPluginsForRoute(ctx context.Context, routeIDorName 
 	}
 	return plugins, nil
 }
-
-func PluginString(plugin *kong.Plugin) (string, error) {
-	if plugin == nil {
-		return "", fmt.Errorf("plugin is nil")
-	}
-	return fmt.Sprintf("Plugin ID: %s, Name: %s\n", *plugin.ID, *plugin.Name), nil
-}

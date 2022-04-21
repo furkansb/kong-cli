@@ -63,12 +63,32 @@ func (k *KongManager) ListRoutesForService(ctx context.Context, serviceNameOrID 
 	return routes, nil
 }
 
-// TODO: Add more descriptive output
 func RouteString(route *kong.Route) (string, error) {
 	if route == nil {
 		return "", fmt.Errorf("route is nil")
 	}
 	id := strPointerToStr(route.ID)
-	firstPath := strPointerToStr(route.Paths[0])
-	return fmt.Sprintf("Route ID: %s, Path: %s\n", id, firstPath), nil
+	hosts := StrSliceFromPSlice(route.Hosts)
+	name := *route.Name
+	paths := StrSliceFromPSlice(route.Paths)
+	serviceID := *route.Service.ID
+	tags := StrSliceFromPSlice(route.Tags)
+	return fmt.Sprintf("Route ID: %s, Name, %s, Hosts: %s, Paths: %s, ServiceID: %s, tags: %s\n", id, name, hosts, paths, serviceID, tags), nil
+}
+
+func RouteStringDetailed(route *kong.Route) (string, error) {
+	if route == nil {
+		return "", fmt.Errorf("route is nil")
+	}
+	id := strPointerToStr(route.ID)
+	hosts := StrSliceFromPSlice(route.Hosts)
+	name := *route.Name
+	methods := StrSliceFromPSlice(route.Methods)
+	paths := StrSliceFromPSlice(route.Paths)
+	preserveHost := *route.PreserveHost
+	protocols := StrSliceFromPSlice(route.Protocols)
+	serviceID := *route.Service.ID
+	stripPath := *route.StripPath
+	tags := StrSliceFromPSlice(route.Tags)
+	return fmt.Sprintf("Route ID: %s, Name, %s, Hosts: %s, Methods: %s, Paths: %s, PreserveHost: %t, Protocols: %s, ServiceID: %s, StripPath: %t, tags: %s\n", id, name, hosts, methods, paths, preserveHost, protocols, serviceID, stripPath, tags), nil
 }

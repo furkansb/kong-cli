@@ -67,11 +67,11 @@ func addServiceCmdFunc(c *cli.Context) error {
 	connectTimeout := c.Int("connect-timeout")
 	writeTimeout := c.Int("write-timeout")
 	readTimeout := c.Int("read-timeout")
-	tags := kong.GetSliceElementsPointer(c.StringSlice("tags"))
+	tags := kong.PsliceFromStrSlice(c.StringSlice("tags"))
 	clientCertificateID := c.String("client-certificate-id")
 	tlsVerify := kong.BoolHandler(c.Bool("tls-verify"))
 	tlsVerifyDepth := tlsIntHandler(c.Int("tls-verify-depth"))
-	caCertificates := kong.GetSliceElementsPointer(c.StringSlice("ca-certificates"))
+	caCertificates := kong.PsliceFromStrSlice(c.StringSlice("ca-certificates"))
 	url := kong.StrToPointer(c.String("url"))
 	clientCertificate := clientCertFromID(clientCertificateID)
 	service := k.Service{Name: &name, Port: &port, Host: &host, Protocol: &protocol, Path: path, ConnectTimeout: &connectTimeout, WriteTimeout: &writeTimeout, ReadTimeout: &readTimeout, Tags: tags, ClientCertificate: clientCertificate, TLSVerify: tlsVerify, TLSVerifyDepth: tlsVerifyDepth, CACertificates: caCertificates, URL: url}
@@ -83,18 +83,23 @@ func addServiceCmdFunc(c *cli.Context) error {
 }
 
 func deleteServiceCmdFunc(c *cli.Context) error {
-	nameOrID := c.String("name-or-id")
+	nameOrID := c.String("name")
 	kongManager.DeleteService(c.Context, nameOrID)
 	return nil
 }
 
 func getServiceCmdFunc(c *cli.Context) error {
-	nameOrID := c.String("name-or-id")
+	nameOrID := c.String("name")
+
 	service, err := kongManager.GetService(c.Context, nameOrID)
 	if err != nil {
 		return err
 	}
-	fmt.Print(kong.ServiceString(service))
+	serviceStr, err := kong.ServiceStringDetailed(service)
+	if err != nil {
+		return err
+	}
+	fmt.Print(serviceStr)
 	return nil
 }
 

@@ -63,7 +63,7 @@ func addOauth2CredCmdFunc(c *cli.Context) error {
 	clientID := kong.StrToPointer(clientIDStr)
 	clientSecretStr := c.String("client-secret")
 	clientSecret := kong.StrToPointer(clientSecretStr)
-	consumerUsernameOrID := c.String("consumer-name-or-id")
+	consumerUsernameOrID := c.String("consumer-username")
 	consumer, err := kongManager.GetConsumer(c.Context, consumerUsernameOrID)
 	if err != nil {
 		return err
@@ -77,8 +77,8 @@ func addOauth2CredCmdFunc(c *cli.Context) error {
 }
 
 func deleteOauth2CredCmdFunc(c *cli.Context) error {
-	consumerUsernameOrID := c.String("consumer-name-or-id")
-	clientIDorID := c.String("client-id-or-id")
+	consumerUsernameOrID := c.String("consumer-name")
+	clientIDorID := c.String("client-id")
 	err := kongManager.DeleteOauth2Credential(c.Context, consumerUsernameOrID, clientIDorID)
 	if err != nil {
 		return err
@@ -87,13 +87,13 @@ func deleteOauth2CredCmdFunc(c *cli.Context) error {
 }
 
 func getOauth2CredCmdFunc(c *cli.Context) error {
-	consumerUsernameOrID := c.String("consumer-name-or-id")
-	clientIDorID := c.String("client-id-or-id")
+	consumerUsernameOrID := c.String("consumer-username")
+	clientIDorID := c.String("client-id")
 	cred, err := kongManager.GetOauth2Credential(c.Context, consumerUsernameOrID, clientIDorID)
 	if err != nil {
 		return err
 	}
-	oauth2Str, err := kong.Oauth2String(cred)
+	oauth2Str, err := kong.Oauth2StringWithClientSecret(cred)
 	if err != nil {
 		return err
 	}
