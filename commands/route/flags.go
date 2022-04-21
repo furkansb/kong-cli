@@ -84,15 +84,15 @@ var (
 	}
 	deleteRouteFlags = []cli.Flag{
 		&cli.StringFlag{
-			Name:     serviceID,
-			Usage:    "The service id or name to which the route belongs to",
+			Name:     name,
+			Usage:    "The ID or name of the route to delete",
 			Required: true,
 		},
 	}
 	getRouteFlags = []cli.Flag{
 		&cli.StringFlag{
-			Name:     serviceID,
-			Usage:    "The service id or name to which the route belongs to",
+			Name:     name,
+			Usage:    "The ID or name of the route to delete",
 			Required: true,
 		},
 	}

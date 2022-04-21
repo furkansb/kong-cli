@@ -60,6 +60,25 @@ func Oauth2String(oauth2Credential *kong.Oauth2Credential) (string, error) {
 	if oauth2Credential == nil {
 		return "", nil
 	}
+	name := strPointerToStr(oauth2Credential.Name)
+	clientID := strPointerToStr(oauth2Credential.ClientID)
+	consumerID := strPointerToStr(oauth2Credential.Consumer.ID)
+	consumerUsername := strPointerToStr(oauth2Credential.Consumer.Username)
+	tags := StrSliceFromPSlice(oauth2Credential.Tags)
 
-	return fmt.Sprintf("Oauth2 ClientID: %s, ConsumerName: %s, ConsumerID: %s\n", strPointerToStr(oauth2Credential.ClientID), strPointerToStr(oauth2Credential.Consumer.Username), strPointerToStr(oauth2Credential.Consumer.ID)), nil
+	return fmt.Sprintf("Name: %s, ClientID: %s,ConsumerID: %s, ConsumerUsername: %s, tags: %s\n", name, clientID, consumerID, consumerUsername, tags), nil
+}
+
+func Oauth2StringWithClientSecret(oauth2Credential *kong.Oauth2Credential) (string, error) {
+	if oauth2Credential == nil {
+		return "", nil
+	}
+	name := strPointerToStr(oauth2Credential.Name)
+	clientID := strPointerToStr(oauth2Credential.ClientID)
+	clientSecret := strPointerToStr(oauth2Credential.ClientSecret)
+	consumerUsername := strPointerToStr(oauth2Credential.Consumer.Username)
+	consumerID := strPointerToStr(oauth2Credential.Consumer.ID)
+	tags := StrSliceFromPSlice(oauth2Credential.Tags)
+
+	return fmt.Sprintf("Name: %s, ClientID: %s, ClientSecret: %s, ConsumerID: %s, ConsumerUsername: %s, Tags: %s\n", name, clientID, clientSecret, consumerID, consumerUsername, tags), nil
 }

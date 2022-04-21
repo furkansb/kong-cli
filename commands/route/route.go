@@ -61,17 +61,17 @@ func Command() *cli.Command {
 // TODO: support headers with flags
 func addRouteCmdFunc(c *cli.Context) error {
 	name := kong.StrToPointer(c.String("name"))
-	hosts := kong.GetSliceElementsPointer(c.StringSlice("hosts"))
-	protocols := kong.GetSliceElementsPointer(c.StringSlice("protocols"))
-	methods := kong.GetSliceElementsPointer(c.StringSlice("methods"))
-	paths := kong.GetSliceElementsPointer(c.StringSlice("paths"))
+	hosts := kong.PsliceFromStrSlice(c.StringSlice("hosts"))
+	protocols := kong.PsliceFromStrSlice(c.StringSlice("protocols"))
+	methods := kong.PsliceFromStrSlice(c.StringSlice("methods"))
+	paths := kong.PsliceFromStrSlice(c.StringSlice("paths"))
 	httpsRedirectStatusCode := c.Int("https-redirect-status-code")
 	regexPriority := c.Int("regex-priority")
 	stripPath := kong.BoolHandler(c.Bool("strip-path"))
 	preserveHost := kong.BoolHandler(c.Bool("preserve-host"))
 	requestBuffering := kong.BoolHandler(c.Bool("request-buffering"))
 	responseBuffering := kong.BoolHandler(c.Bool("response-buffering"))
-	tags := kong.GetSliceElementsPointer(c.StringSlice("tags"))
+	tags := kong.PsliceFromStrSlice(c.StringSlice("tags"))
 	serviceID := c.String("service-id")
 	service, err := kongManager.GetService(c.Context, serviceID)
 	if err != nil {
@@ -86,18 +86,22 @@ func addRouteCmdFunc(c *cli.Context) error {
 }
 
 func deleteRouteCmdFunc(c *cli.Context) error {
-	nameOrID := c.String("name-or-id")
+	nameOrID := c.String("name")
 	kongManager.DeleteRoute(c.Context, nameOrID)
 	return nil
 }
 
 func getRouteCmdFunc(c *cli.Context) error {
-	nameOrID := c.String("name-or-id")
+	nameOrID := c.String("name")
 	route, err := kongManager.GetRoute(c.Context, nameOrID)
 	if err != nil {
 		return err
 	}
-	fmt.Print(kong.RouteString(route))
+	routeStr, err := kong.RouteStringDetailed(route)
+	if err != nil {
+		return err
+	} 
+	fmt.Print(routeStr)
 	return nil
 }
 

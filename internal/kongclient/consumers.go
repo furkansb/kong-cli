@@ -51,5 +51,8 @@ func ConsumerString(consumer *kong.Consumer) (string, error) {
 	if consumer == nil {
 		return "", fmt.Errorf("consumer is nil")
 	}
-	return fmt.Sprintf("Consumer Name: %s, ID: %s\n", strPointerToStr(consumer.Username), strPointerToStr(consumer.ID)), nil
+	ID := strPointerToStr(consumer.ID)
+	username := strPointerToStr(consumer.Username)
+	customID := strPointerToStr(consumer.CustomID)
+	return fmt.Sprintf("ID: %s, Consumer Name: %s, ID: %s\n", ID, username, customID), nil
 }
