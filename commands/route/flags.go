@@ -23,6 +23,7 @@ const (
 	destinations            = "destinations"
 	tags                    = "tags"
 	serviceID               = "service-id"
+	service                 = "service"
 
 	defaultRouteHosts     = "kong-test.com"
 	defaultRouteProtocols = "http"
@@ -96,10 +97,10 @@ var (
 			Required: true,
 		},
 	}
-	// listRouteForServiceFlags = []cli.Flag{
-	// 	&cli.StringFlag{
-	// 		Name:  serviceNameOrID,
-	// 		Value: "kong-test",
-	// 	},
-	// }
+	listRouteFlags = []cli.Flag{
+		&cli.StringFlag{
+			Name:  service,
+			Usage: "The ID or name of the service to list routes for",
+		},
+	}
 )

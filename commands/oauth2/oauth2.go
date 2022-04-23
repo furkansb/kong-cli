@@ -49,6 +49,7 @@ func Command() *cli.Command {
 			{
 				Name:  "list",
 				Usage: "list oauth2 credentials",
+				Flags: listOauth2Flags,
 				Action: func(c *cli.Context) error {
 					return listOauth2CredsCmdFunc(c)
 				},
@@ -102,9 +103,20 @@ func getOauth2CredCmdFunc(c *cli.Context) error {
 }
 
 func listOauth2CredsCmdFunc(c *cli.Context) error {
-	creds, err := kongManager.ListAllOauth2Credentials(c.Context)
-	if err != nil {
-		return err
+	consumerUsername := c.String("consumer-username")
+	var creds []*k.Oauth2Credential
+	if consumerUsername == "" {
+		var err error
+		creds, err = kongManager.ListAllOauth2Credentials(c.Context)
+		if err != nil {
+			return err
+		}
+	} else {
+		var err error
+		creds, err = kongManager.ListAllOauth2CredentialsForConsumer(c.Context, consumerUsername)
+		if err != nil {
+			return err
+		}
 	}
 	for _, cred := range creds {
 		oauth2Str, err := kong.Oauth2String(cred)

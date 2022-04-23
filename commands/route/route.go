@@ -50,6 +50,7 @@ func Command() *cli.Command {
 			{
 				Name:  "list",
 				Usage: "list routes",
+				Flags: listRouteFlags,
 				Action: func(c *cli.Context) error {
 					return listRoutesCmdFunc(c)
 				},
@@ -100,15 +101,26 @@ func getRouteCmdFunc(c *cli.Context) error {
 	routeStr, err := kong.RouteStringDetailed(route)
 	if err != nil {
 		return err
-	} 
+	}
 	fmt.Print(routeStr)
 	return nil
 }
 
 func listRoutesCmdFunc(c *cli.Context) error {
-	routes, err := kongManager.ListAllRoutes(c.Context)
-	if err != nil {
-		return err
+	serviceNameOrID := c.String("service")
+	var routes []*k.Route
+	if serviceNameOrID == "" {
+		var err error
+		routes, err = kongManager.ListAllRoutes(c.Context)
+		if err != nil {
+			return err
+		}
+	} else {
+		var err error
+		routes, err = kongManager.ListRoutesForService(c.Context, serviceNameOrID)
+		if err != nil {
+			return err
+		}
 	}
 	for _, r := range routes {
 		routeStr, err := kong.RouteString(r)

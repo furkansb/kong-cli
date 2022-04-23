@@ -20,8 +20,9 @@ var (
 			Required: true,
 		},
 		&cli.StringFlag{
-			Name:  name,
-			Usage: "oauth2 name or id",
+			Name:     name,
+			Usage:    "oauth2 name or id",
+			Required: true,
 		},
 		&cli.StringFlag{
 			Name: clientID,
@@ -52,6 +53,12 @@ var (
 			Name:     clientID,
 			Usage:    "oauth2 client id or id",
 			Required: true,
+		},
+	}
+	listOauth2Flags = []cli.Flag{
+		&cli.StringFlag{
+			Name:  consumerUsername,
+			Usage: "consumer username or id",
 		},
 	}
 )
